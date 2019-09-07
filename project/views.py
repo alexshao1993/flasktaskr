@@ -4,7 +4,7 @@ import sqlite3
 from functools import wraps
 
 from flask import Flask, flash, redirect, render_template, \
-    requst, session, url_for
+    request, session, url_for
 
 # config
 
@@ -20,11 +20,11 @@ def connect_db():
 def login_required(test):
     @wraps(test)
     def wrap(*args, **kwargs):
-    if 'logged_in' in session:
-        return test(*args, **kwargs)
-    else:
-        flash('You need to login first.')
-        return redirect(url_for('login'))
+        if 'logged_in' in session:
+            return test(*args, **kwargs)
+        else:
+            flash('You need to login first.')
+            return redirect(url_for('login'))
     return wrap
 
 
@@ -47,4 +47,4 @@ def login():
         else:
             session['logged_in'] = True
             return redirect(url_for('tasks'))
-    return render_template(url_for('login.html'))
+    return render_template('login.html')
